@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="api.css">
+</head>
+<body>
+    <script type="module" src="https://unpkg.com/shader-art"></script>
+
+    <shader-art autoplay dpr="1" role="img" tabindex="0" aria-label="A noise animation in red">
+  <script type="buffer" name="position" data-size="2">
+    [-1, 1, -1,-1, 1,1, 1, 1, -1,-1, 1,-1]
+  </script>
+  <script type="buffer" name="uv" data-size="2">
+    [ 0, 0,  0, 1, 1,0, 1, 0,  0, 1, 1, 1]
+  </script>
+  <script type="vert">
+    #version 300 es
+    
+    precision highp float;
+    in vec4 position;
+    in vec2 uv;
+    out vec2 vUv;
+    out vec4 vPosition;
+    void main() {
+      vUv = uv;
+      vPosition = position;
+      gl_Position = position;
+    }
+  </script>
+  <script type="frag">
+    #version 300 es
+    
+    precision highp float;
+    in vec2 vUv;
+    in vec4 vPosition;
+    out vec4 fragColor;
+    uniform vec2 resolution;
+    uniform float time;
+    uniform sampler2D charset;
+    uniform sampler2D message;
+    
+    #define AA 1e-3
+    #define PI 3.141592654
+    #define DEG PI / 180.
+
+    vec2 rotate(vec2 p, float a) {
+      return vec2(p.x * cos(a) - p.y * sin(a),
+              p.x * sin(a) + p.y * cos(a));
+    }
+      
+    float nooise(vec2 p) {
+      float n = .5 + .5 * (
+        sin(p.x * .5 + cos(p.y * 4. + .2 * cos(p.x * 2. + time * .5) + time * .3) + time * .4) * 
+        cos(p.y * .7 + sin(p.x * 3. + .3 * cos(p.y * 2. + time * .6) + time * .4) + time * .7)
+      );
+      return n;
+    }
+    
+    
+    vec3 background() {
+      vec2 p0 = vPosition.xy;
+      float aspectRatio = resolution.x / resolution.y;
+      p0.x *= aspectRatio;
+      vec2 p = rotate(p0.xy * .8, time * .05);
+      
+      float n = (nooise(p) + nooise(p * 2.) + nooise(p * 5.)) / 3.;
+      
+      n = n * sin(n * n * 23. + time * .2);
+      n = clamp(smoothstep(.3, .35, n) - smoothstep(.4, .45, n), 0., 1.);
+      return vec3(.7, .1, .05) * n;
+    }
+    
+    void main() {
+      //vec3 color = texture(charset, vUv).rgb * vec3(1., vUv.xy);
+      float scanlines = .8 + .2 * smoothstep(0., 4., mod(gl_FragCoord.y, 4.));
+      fragColor = vec4(background(),1.);
+    }
+  </script>
+</shader-art>
+
+    <button id="click">get facts</button>
+    <p id="fact"></p>
+    
+</body>
+<script type="module" src="api.js"></script>
+
+
+</html>
