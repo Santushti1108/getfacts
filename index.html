@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="api.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <script type="module" src="https://unpkg.com/shader-art"></script>
 
-    <shader-art autoplay dpr="1" role="img" tabindex="0" aria-label="A noise animation in red">
+  <div id="box">
+    <button id="click">GET FACTS</button>
+    <p id="fact"></p>
+  </div>
+  
+</body>
+<script type="module" src="api.js"></script>
+<script type="module" src="https://unpkg.com/shader-art"></script>
+
+<shader-art autoplay dpr="1" role="img" tabindex="0" aria-label="A noise animation in red">
   <script type="buffer" name="position" data-size="2">
     [-1, 1, -1,-1, 1,1, 1, 1, -1,-1, 1,-1]
   </script>
@@ -52,7 +63,7 @@
     }
       
     float nooise(vec2 p) {
-      float n = .5 + .5 * (
+      float n = .3 + .4 * (
         sin(p.x * .5 + cos(p.y * 4. + .2 * cos(p.x * 2. + time * .5) + time * .3) + time * .4) * 
         cos(p.y * .7 + sin(p.x * 3. + .3 * cos(p.y * 2. + time * .6) + time * .4) + time * .7)
       );
@@ -80,12 +91,5 @@
     }
   </script>
 </shader-art>
-
-    <button id="click">get facts</button>
-    <p id="fact"></p>
-    
-</body>
-<script type="module" src="api.js"></script>
-
 
 </html>

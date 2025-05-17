@@ -22,6 +22,13 @@ shader-art canvas {
   height: 100%;
 }
 
+#box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
 #click {
   position: absolute;
   top: 30%;
@@ -29,32 +36,67 @@ shader-art canvas {
   background-color: #000;
   color: white;
   border-radius: 8px;
-  padding: 8px;
+  padding: 12px;
   font-size: 20px;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition:  1s ease, transform 1s ease;
 }
 #click:hover{
-background-color: black;
-  color: #ff073a;
+  background-color: black;
   border: 2px solid #ff073a;
-  padding: 12px 24px;
-  font-size: 18px;
-  font-weight: bold;
-  text-transform: uppercase;
+  padding: 16px 24px;
   cursor: pointer;
   border-radius: 8px;
+  filter: brightness(1.5);
   box-shadow:
     0 0 5px #ff073a,
     0 0 10px #ff073a,
     0 0 20px #ff073a;
   transition:  1s ease, transform 1s ease;
-} 
+}
+
 #fact {
-    position: absolute;
-    top: 40%;
-    margin: 20px 30px;
-    align-items: center;
-    font-weight: bold;
-    font-size: 30px;
-    color: white;
-    }
+  font-family:"Karla", sans-serif;
+  border-radius: 20px;
+  position: absolute;
+  width:1020px;
+  top: 40%;
+  margin: 20px 30px;
+  padding: 12px 24px;
+  align-items: center;
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: white;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  /* box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1); */
+  backdrop-filter: blur(5px);
+  /* border: 1px solid rgb(137, 93, 93); */
+}
+
+@media (max-width: 600px) {
+  #click {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+
+  #fact {
+    font-size: 1.5rem;
+    padding: 12px 16px;
+    margin: 10px;
+    width: 90%;
+    word-wrap: break-word;
+  }
+
+  shader-art {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  shader-art canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
